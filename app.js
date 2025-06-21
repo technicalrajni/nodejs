@@ -7,7 +7,7 @@ const PORT = 3000;
 
 // Replace with your Slack Webhook URL
 const SLACK_WEBHOOK_URL =
-  "https://hooks.slack.com/services/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";
+  "https://hooks.slack.com/services/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";
 
 app.use(bodyParser.json());
 
