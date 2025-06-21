@@ -14,7 +14,7 @@ app.post("/github", async (req, res) => {
   const payload = req.body;
 
   console.log("📬 GitHub Event:", event);
-  console.log("🧾 Payload:", JSON.stringify(payload, null, 2));
+  console.log("🧾 Payload:2", JSON.stringify(payload, null, 2));
 
   let message = "";
 
