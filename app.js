@@ -5,7 +5,7 @@ const app = express();
 const PORT = 3000;
 
 const SLACK_WEBHOOK_URL =
-  "https://hooks.slack.com/services/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";
+  "https://hooks.slack.com/services/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";
 
 app.use(express.json());
 
