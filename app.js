@@ -24,7 +24,7 @@ app.post("/github", async (req, res) => {
   } else if (event === "pull_request") {
     message = `🚀 *Pull Request ${payload.action}* by ${payload.sender.login} in \`${payload.repository.full_name}\`\n*${payload.pull_request.title}*\n<${payload.pull_request.html_url}|View PR>`;
   } else {
-    message = `📢 *${event}* event received. Not handled.`;
+    message = `📢 *${event}* event received. Not handled. dddd`;
   }
 
   // Send to Slack
