@@ -1,19 +1,20 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const axios = require("axios");
 
 const app = express();
 const PORT = 3000;
 
-// Replace with your Slack Webhook URL
 const SLACK_WEBHOOK_URL =
   "https://hooks.slack.com/services/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";
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.post("/github", async (req, res) => {
   const event = req.headers["x-github-event"];
   const payload = req.body;
+
+  console.log("📬 GitHub Event:", event);
+  console.log("🧾 Payload:", JSON.stringify(payload, null, 2));
 
   let message = "";
 
@@ -23,22 +24,23 @@ app.post("/github", async (req, res) => {
     message = `🐞 *Issue ${payload.action}* by ${payload.sender.login} in \`${payload.repository.full_name}\`\n*${payload.issue.title}*\n<${payload.issue.html_url}|View Issue>`;
   } else if (event === "pull_request") {
     message = `🚀 *Pull Request ${payload.action}* by ${payload.sender.login} in \`${payload.repository.full_name}\`\n*${payload.pull_request.title}*\n<${payload.pull_request.html_url}|View PR>`;
+  } else if (event === "star") {
+    message = `⭐ *${payload.sender.login} starred* \`${payload.repository.full_name}\``;
   } else {
-    message = `📢 *${event}* event received. Not handled. ddddd`;
+    message = `📢 *${event}* event received. Not handled.`;
   }
 
-  // Send to Slack
   try {
     await axios.post(SLACK_WEBHOOK_URL, {
       text: message
     });
-    res.status(200).send("Event received");
+    res.status(200).send("✅ GitHub event received and sent to Slack.");
   } catch (err) {
-    console.error("Error sending to Slack:", err);
-    res.status(500).send("Error");
+    console.error("❌ Error sending to Slack:", err.message);
+    res.status(500).send("Error sending to Slack");
   }
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
